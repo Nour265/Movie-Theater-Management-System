@@ -1,0 +1,90 @@
+﻿CREATE TABLE Person(
+SSN INT,
+CheckedinBy INT,
+Name NVARCHAR(50),
+Email NVARCHAR(100),
+Password NVARCHAR(100),
+Phone NVARCHAR(30),
+Address TEXT,
+Age INT,
+Salary INT,
+Role NVARCHAR(10),
+Gender NVARCHAR(10),
+Status BIT,
+PRIMARY KEY(SSN));
+
+ALTER TABLE Person
+ADD CONSTRAINT Person_CheckedinBy
+FOREIGN KEY (CheckedinBy) REFERENCES Person (SSN);
+
+
+CREATE TABLE Seat(
+ID INT,
+SSN INT,
+NUMBER INT,
+MID INT,
+#Row INT,
+#Column INT,
+StartTime DATETIME,
+EndTime DATETIME,
+Price INT,
+PRIMARY KEY(ID));
+
+CREATE TABLE Auditorium(
+Number INT,
+Capacity INT,
+PRIMARY KEY(Number));
+
+CREATE TABLE Movie(
+ID INT,
+Name NVARCHAR(50),
+Description TEXT,
+LeadActors TEXT,
+Duration Time,
+PRIMARY KEY (ID));
+
+ALTER TABLE Seat
+ADD CONSTRAINT Person_Seat_SSN
+FOREIGN KEY(SSN) REFERENCES Person (SSN);
+
+ALTER TABLE Seat
+ADD CONSTRAINT Auditorium_Seat_Number
+FOREIGN KEY(Number) REFERENCES Auditorium(Number);
+
+ALTER TABLE Seat
+ADD CONSTRAINT Movie_Seat_MID
+FOREIGN KEY(MID) REFERENCES Movie(ID);
+
+CREATE TABLE TakesPlaceIn(
+Number INT,
+ID INT,
+Time DATETIME,
+AvailableSeats INT,
+PRIMARY KEY (Number,ID,Time));
+
+
+ALTER TABLE TakesPlaceIn
+ADD CONSTRAINT Auditorium_TakesPlaceIn_Number
+FOREIGN KEY(Number) REFERENCES Auditorium(Number);
+
+ALTER TABLE TakesPlaceIn
+ADD CONSTRAINT Movie_TakesPlaceIn_ID
+FOREIGN KEY(ID) REFERENCES Movie(ID);
+
+CREATE TABLE Genre(
+ID INT,
+Type NVARCHAR(50),
+PRIMARY KEY (ID));
+
+CREATE TABLE BelongsTo(
+MID INT,
+GID INT,
+PRIMARY KEY(MID,GID));
+
+ALTER TABLE BelongsTo
+ADD CONSTRAINT Movie_BelongsTo_MID
+FOREIGN KEY(MID) REFERENCES MOVIE(ID);
+
+ALTER TABLE BelongsTo
+ADD CONSTRAINT Genre_BelongsTo_GID
+FOREIGN KEY(GID) REFERENCES Genre(ID);
